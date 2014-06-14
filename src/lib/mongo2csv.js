@@ -22,8 +22,9 @@ function getHeaders(obj,prefix){
 }
 
 function getDataByHeaders(output){
-    file        = fs.createWriteStream(output, {'flags': 'a'});
-    file.write(headers.join(';')+'\n');
+    process.stdout.write('Writting file...');
+    file        = fs.openSync(output, 'a')
+    fs.writeSync(file,headers.join(';')+'\n');
     var value   = null;
     var line    = null;
     data.forEach(
@@ -38,26 +39,36 @@ function getDataByHeaders(output){
                     line.push(value);
                 }
             );
-            file.write(line.join(';')+'\n');
+            fs.writeSync(file,line.join(';')+'\n');
         }
     );
+    fs.closeSync(file);
+    process.stdout.write("OK\n");
+    process.stdout.write(output+" created.\n");
+    process.exit();
 }
 
 exports.start	= function(){
-    var args    = process.argv;
-    if(args.length<5){
-        console.log("Use:\nmongo2csv database collection output_file");
-        process.exit();
-    }
-    databaseUrl = args[2];
-    collections = [args[3]];
+    var argv        = require('yargs')
+            .demand(['d','c','f'])
+            .alias('d','database')
+            .alias('c','collection')
+            .alias('f','file')
+            .describe('d','Mongo Database name')
+            .describe('c','Mongo Collection name')
+            .describe('f','Output csv file name')
+            .argv;
+    databaseUrl = argv.database;
+    collections = [argv.collection];
     db          = require("mongojs").connect(databaseUrl,collections);
-    var file    = args[4];
+    var file    = argv.file;
     db.results.find({}, function(err, results) {
+        process.stdout.write('Getting data...');
         results.forEach( function(result) {
             getHeaders(result);
             data.push(result);
       } );
+    process.stdout.write("OK\n");
     getDataByHeaders(file);
     });
 }
