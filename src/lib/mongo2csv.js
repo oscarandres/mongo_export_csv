@@ -62,7 +62,7 @@ exports.start	= function(){
     collections = [argv.collection];
     db          = require("mongojs").connect(databaseUrl,collections);
     var file    = argv.file;
-    db.results.find({}, function(err, results) {
+    db[argv.collection].find({}, function(err, results) {
         process.stdout.write('Getting data...');
         results.forEach( function(result) {
             getHeaders(result);
