@@ -32,7 +32,11 @@ function getDataByHeaders(output){
             line = [];
             headers.forEach(
                 function(header){
-                    value   = eval('registry'+header);
+                    try{
+                        value   = eval('registry'+header);
+                    }catch(err){
+                        value   = '';
+                    }
                     if(value=="undefined"){
                         value='';
                     }
@@ -62,7 +66,8 @@ exports.start	= function(){
     collections = [argv.collection];
     db          = require("mongojs").connect(databaseUrl,collections);
     var file    = argv.file;
-    db[argv.collection].find({}, function(err, results) {
+    var collection  = eval('db.'+argv.collection);
+    collection.find({}, function(err, results) {
         process.stdout.write('Getting data...');
         results.forEach( function(result) {
             getHeaders(result);
