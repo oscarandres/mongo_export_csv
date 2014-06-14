@@ -1,6 +1,8 @@
-var databaseUrl	= "crossfit";
-var collections	= ["affiliates","athletes","results"];
-var db		= require("mongojs").connect(databaseUrl,collections);
+//var databaseUrl	= "crossfit";
+var databaseUrl;
+//var collections	= ["affiliates","athletes","results"];
+var collections;
+var db;
 var headers	= [];
 var data        = [];
 var fs          = require('fs');
@@ -21,8 +23,7 @@ function getHeaders(obj,prefix){
 
 function getDataByHeaders(output){
     file        = fs.createWriteStream(output, {'flags': 'a'});
-    file.write(headers.join(',')+'\n');
-    var aux     = null;
+    file.write(headers.join(';')+'\n');
     var value   = null;
     var line    = null;
     data.forEach(
@@ -37,20 +38,26 @@ function getDataByHeaders(output){
                     line.push(value);
                 }
             );
-            file.write(line.join(',')+'\n');
+            file.write(line.join(';')+'\n');
         }
     );
 }
 
 exports.start	= function(){
-	db.results.find({}, function(err, results) {
-	    var keys    = [];
-	    var key     = null;
-	    results.forEach( function(result) {
-		getHeaders(result);
-                data.push(result);
-	  } );
-	    getDataByHeaders('prueba.csv');
-//            process.exit();
-	});
+    var args    = process.argv;
+    if(args.length<5){
+        console.log("Use:\nmongo2csv database collection output_file");
+        process.exit();
+    }
+    databaseUrl = args[2];
+    collections = [args[3]];
+    db          = require("mongojs").connect(databaseUrl,collections);
+    var file    = args[4];
+    db.results.find({}, function(err, results) {
+        results.forEach( function(result) {
+            getHeaders(result);
+            data.push(result);
+      } );
+    getDataByHeaders(file);
+    });
 }
