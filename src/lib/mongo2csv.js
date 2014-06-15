@@ -52,21 +52,9 @@ function getDataByHeaders(output){
     process.exit();
 }
 
-exports.start	= function(){
-    var argv        = require('yargs')
-            .demand(['d','c','f'])
-            .alias('d','database')
-            .alias('c','collection')
-            .alias('f','file')
-            .describe('d','Mongo Database name')
-            .describe('c','Mongo Collection name')
-            .describe('f','Output csv file name')
-            .argv;
-    databaseUrl = argv.database;
-    collections = [argv.collection];
+exports.start	= function(databaseUrl,collections,file){
     db          = require("mongojs").connect(databaseUrl,collections);
-    var file    = argv.file;
-    var collection  = eval('db.'+argv.collection);
+    var collection  = eval('db.'+collections[0]);
     collection.find({}, function(err, results) {
         process.stdout.write('Getting data...');
         results.forEach( function(result) {

@@ -2,7 +2,7 @@
   "author": "Oscar Andrés Monroy",
   "name": "mongo2csv",
   "description": "Export mongo collection to csv file.",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "repository": {
     "url": "https://github.com/oscarandres/mongo2csv"
   },
