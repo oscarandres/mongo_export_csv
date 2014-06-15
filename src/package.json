@@ -1,6 +1,6 @@
 {
   "name": "mongo_export_csv",
-  "version": "0.0.3",
+  "version": "0.0.1",
   "description": "Export mongo collection to csv file.",
   "main": "./lib/main",
   "dependencies": {
