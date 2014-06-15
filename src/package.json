@@ -1,12 +1,19 @@
 {
-  "author": "Oscar Andrés Monroy",
   "name": "mongo2csv",
-  "description": "Export mongo collection to csv file.",
   "version": "0.0.3",
+  "description": "Export mongo collection to csv file.",
+  "main": "./lib/main",
+  "dependencies": {
+    "mongojs": "",
+    "yargs": ""
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
+    "type":"git",
     "url": "https://github.com/oscarandres/mongo2csv"
   },
-  "main": "./lib/mongo2csv",
   "keywords": [
     "npm",
     "mongodb",
@@ -14,12 +21,13 @@
     "csv",
     "mongo to csv"
   ],
+  "author": {
+      "name":"oscarandres",
+      "email":"oscar.andres.monroy@gmail.com",
+      "url":"http://oscarandresmonroy.com"
+      },
   "bin": {
     "mongo2csv": "./bin/mongo2csv"
-  },
-  "dependencies": {
-    "mongojs": "",
-    "yargs":""
   },
   "engines": {
     "node": "*"
@@ -27,8 +35,6 @@
   "bugs": {
     "url": "https://github.com/oscarandres/mongo2csv/issues"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "license": "BSD-2-Clause"
+  "license": "MIT/X11",
+  "homepage": "https://github.com/oscarandres/mongo2csv"
 }

@@ -13,4 +13,4 @@
     var collections = [argv.collection];
     var file        = argv.file;
     mongo2csv.start(databaseUrl,collections,file);
-}).call(this)
+}).call(this);
