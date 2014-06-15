@@ -1,5 +1,5 @@
 (function() {
-    var mongo2csv   = require ('./mongo2csv');
+    var mongo_export_csv   = require ('./mongo_export_csv');
     var argv        = require('yargs')
             .demand(['d','c','f'])
             .alias('d','database')
@@ -12,5 +12,5 @@
     var databaseUrl = argv.database;
     var collections = [argv.collection];
     var file        = argv.file;
-    mongo2csv.start(databaseUrl,collections,file);
+    mongo_export_csv.start(databaseUrl,collections,file);
 }).call(this);
